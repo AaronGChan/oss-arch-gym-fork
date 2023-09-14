@@ -66,7 +66,7 @@ class TrainingState(NamedTuple):
   value_std: Optional[networks_lib.Params] = None
 
 
-class PPOLearner(acme.Learner):
+class PPOLearner(acme.core.Learner):
   """Learner for PPO."""
 
   def __init__(

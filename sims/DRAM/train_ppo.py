@@ -21,7 +21,7 @@ from acme.utils.loggers.csv import CSVLogger
 from acme.utils.loggers import aggregators
 from acme.utils.loggers import base
 
-from arch_gym.envs import dramsys_wrapper
+from arch_gym.envs import dramsys_wrapper_rl
 
 print("Import Successful")
 
@@ -41,7 +41,7 @@ flags.DEFINE_bool(
     'distributed way (the default is a single-threaded agent)')
 
 
-def _logger_factory(logger_label: str) -> base.Logger:
+def _logger_factory(logger_label: str, steps=0, num=0) -> base.Logger:
   """logger factory."""
   
   if logger_label == 'train':
@@ -74,7 +74,7 @@ def _logger_factory(logger_label: str) -> base.Logger:
 
 def build_experiment_config():
     """Builds the experiment configuration."""
-    env = dramsys_wrapper.make_dramsys_env()
+    env = dramsys_wrapper_rl.make_dramsys_env(rl_form="sa")
     env_spec = specs.make_environment_spec(env)
     config = ppo.PPOConfig(entropy_cost=FLAGS.entropy_cost,
                            learning_rate=FLAGS.learning_rate,

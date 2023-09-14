@@ -7,7 +7,7 @@ os.sys.path.insert(0, os.path.abspath('../../'))
 from configs import arch_gym_configs
 os.sys.path.insert(0, os.path.abspath('../../acme'))
 print(os.sys.path)
-import envlogger
+#import envlogger
 from acme.agents.jax import ppo
 from acme.agents.jax import sac
 from acme import wrappers
@@ -63,8 +63,8 @@ _N_STEP = flags.DEFINE_integer('n_step', 1, 'Number of gradient steps.')
 
 # Experiment setup related parameters
 _SUMMARYDIR = flags.DEFINE_string('summarydir', './logs', 'Directory to save summaries.')
-_ENVLOGGER_DIR = flags.DEFINE_string('envlogger_dir', 'trajectory', 'Directory to save envlogger.')
-_USE_ENVLOGGER = flags.DEFINE_bool('use_envlogger', False, 'Use envlogger.')
+# _ENVLOGGER_DIR = flags.DEFINE_string('envlogger_dir', 'trajectory', 'Directory to save envlogger.')
+# _USE_ENVLOGGER = flags.DEFINE_bool('use_envlogger', False, 'Use envlogger.')
 _RUN_DISTRIBUTED = flags.DEFINE_bool(
     'run_distributed', False, 'Should an agent be executed in a '
     'distributed way (the default is a single-threaded agent)')
@@ -91,18 +91,18 @@ def get_directory_name():
     return _EXP_NAME
 
 
-def wrap_in_envlogger(env, envlogger_dir):
-    metadata = {
-        'agent_type': FLAGS.rl_algo,
-        'rl_form': FLAGS.rl_form,
-        'num_steps': FLAGS.num_steps,
-        'env_type': type(env).__name__,
-    }
-    env = envlogger.EnvLogger(env,
-                        data_directory = envlogger_dir,
-                        metadata = metadata,
-                        max_episodes_per_file = 1000)
-    return env
+# def wrap_in_envlogger(env, envlogger_dir):
+#     metadata = {
+#         'agent_type': FLAGS.rl_algo,
+#         'rl_form': FLAGS.rl_form,
+#         'num_steps': FLAGS.num_steps,
+#         'env_type': type(env).__name__,
+#     }
+#     env = envlogger.EnvLogger(env,
+#                         data_directory = envlogger_dir,
+#                         metadata = metadata,
+#                         max_episodes_per_file = 1000)
+#     return env
 
 
 def _logger_factory(logger_label: str, steps_key: Optional[str] = None, task_instance: Optional[int]=0) -> base.Logger:
@@ -142,11 +142,11 @@ def build_experiment_config():
     env = dramsys_wrapper_rl.make_dramsys_env(rl_form=FLAGS.rl_form,
             reward_formulation = _REWARD_FORM.value,
             reward_scaling = _REWARD_SCALE.value)
-    if FLAGS.use_envlogger:
-        envlogger_dir = os.path.join(FLAGS.summarydir, get_directory_name(), FLAGS.envlogger_dir)
-        if(not os.path.exists(envlogger_dir)):
-            os.makedirs(envlogger_dir)
-        env = wrap_in_envlogger(env, envlogger_dir)
+    # if FLAGS.use_envlogger:
+    #     envlogger_dir = os.path.join(FLAGS.summarydir, get_directory_name(), FLAGS.envlogger_dir)
+    #     if(not os.path.exists(envlogger_dir)):
+    #         os.makedirs(envlogger_dir)
+    #     env = wrap_in_envlogger(env, envlogger_dir)
     
     env_spec = specs.make_environment_spec(env)
     if FLAGS.rl_algo == 'ppo':

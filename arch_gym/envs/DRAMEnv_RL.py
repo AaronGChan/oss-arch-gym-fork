@@ -7,6 +7,7 @@ settings_dir_path = os.path.dirname(settings_file_path)
 os.sys.path.insert(0, settings_dir_path)
 
 os.sys.path.insert(0, settings_dir_path + '/../../')
+os.sys.path.insert(0, settings_dir_path + '/../../sims/DRAM/binary/DRAMSys_Proxy_Model')
 
 from configs import arch_gym_configs
 import gym

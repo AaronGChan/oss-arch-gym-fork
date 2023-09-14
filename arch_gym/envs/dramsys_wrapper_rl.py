@@ -25,6 +25,13 @@ from gym import spaces
 import numpy as np
 import tree
 
+import os
+import sys
+settings_file_path = os.path.realpath(__file__)
+settings_dir_path = os.path.dirname(settings_file_path)
+os.sys.path.insert(0, settings_dir_path)
+
+os.sys.path.insert(0, settings_dir_path + '/../../')
 from DRAMEnv_RL import DRAMEnv
 from envHelpers import helpers
 

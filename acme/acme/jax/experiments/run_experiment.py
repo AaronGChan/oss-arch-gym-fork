@@ -130,8 +130,7 @@ def run_experiment(experiment: config.ExperimentConfig,
   # rate_limiter which is created by the builder.make_replay_tables call above.
   actor = _LearningActor(actor, learner, dataset, replay_tables,
                          rate_limiters_max_diff, checkpointer)
-
-  train_loop = acme.EnvironmentLoop(
+  train_loop = acme.environment_loop.EnvironmentLoop(
       environment,
       actor,
       counter=train_counter,
@@ -162,7 +161,7 @@ def run_experiment(experiment: config.ExperimentConfig,
       policy=eval_policy,
       environment_spec=environment_spec,
       variable_source=learner)
-  eval_loop = acme.EnvironmentLoop(
+  eval_loop = acme.environment_loop.EnvironmentLoop(
       environment,
       eval_actor,
       counter=eval_counter,
